@@ -29,8 +29,8 @@ type DeviceContextType = {
   loading: boolean;
   error: string;
   refreshDevices: () => Promise<void>;
-  addDevice: (name: string) => void;
-  removeDevice: (id: string) => void;
+  connectDevice: (deviceId: string) => Promise<string>;
+  removeDevice: (id: string) => Promise<string>;
   getDevice: (id: string) => Device | undefined;
   getHistoricalData: (deviceId: string, metric: Metric, timeRange: TimeRange) => HistoricalData[];
 };
@@ -42,6 +42,15 @@ type BackendDevice = {
 
 type DevicesResponse = {
   devices: BackendDevice[];
+};
+
+type ConnectDeviceResponse = {
+  message: string;
+  name?: string;
+};
+
+type DisconnectDeviceResponse = {
+  message: string;
 };
 
 const DeviceContext = createContext<DeviceContextType | undefined>(undefined);
@@ -110,20 +119,46 @@ export function DeviceProvider({ children }: React.PropsWithChildren) {
     void refreshDevices();
   }, [user?.accessToken]);
 
-  const addDevice = (name: string) => {
-    const trimmed = name.trim();
+  const connectDevice = async (deviceId: string) => {
+    const trimmed = deviceId.trim();
     if (!trimmed) {
-      return;
+      throw new Error("Device ID is required");
     }
 
-    setDevices((current) => [
-      ...current,
-      { id: String(Date.now()), name: trimmed, readings: generateMockReading() },
-    ]);
+    if (!user?.accessToken) {
+      throw new Error("You need to be logged in to connect a device");
+    }
+
+    const response = await apiRequest<ConnectDeviceResponse>("/api/devices/connect", {
+      method: "POST",
+      body: { device_id: trimmed },
+      headers: getBearerAuthHeaders(user.accessToken),
+    });
+
+    await refreshDevices();
+
+    return response.message;
   };
 
-  const removeDevice = (id: string) => {
-    setDevices((current) => current.filter((device) => device.id !== id));
+  const removeDevice = async (id: string) => {
+    const trimmed = id.trim();
+    if (!trimmed) {
+      throw new Error("Device ID is required");
+    }
+
+    if (!user?.accessToken) {
+      throw new Error("You need to be logged in to disconnect a device");
+    }
+
+    const response = await apiRequest<DisconnectDeviceResponse>("/api/devices/disconnect", {
+      method: "POST",
+      body: { device_id: trimmed },
+      headers: getBearerAuthHeaders(user.accessToken),
+    });
+
+    await refreshDevices();
+
+    return response.message;
   };
 
   const getDevice = (id: string) => devices.find((device) => device.id === id);
@@ -147,7 +182,7 @@ export function DeviceProvider({ children }: React.PropsWithChildren) {
 
   return (
     <DeviceContext.Provider
-      value={{ devices, loading, error, refreshDevices, addDevice, removeDevice, getDevice, getHistoricalData }}
+      value={{ devices, loading, error, refreshDevices, connectDevice, removeDevice, getDevice, getHistoricalData }}
     >
       {children}
     </DeviceContext.Provider>

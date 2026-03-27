@@ -19,7 +19,7 @@ type Props = CompositeScreenProps<
 >;
 
 export function HomeScreen({ navigation }: Props) {
-  const { devices, loading, error, addDevice, refreshDevices } = useDevices();
+  const { devices, loading, error, connectDevice, refreshDevices } = useDevices();
   const [modalVisible, setModalVisible] = useState(false);
   const [creating, setCreating] = useState(false);
 
@@ -27,18 +27,24 @@ export function HomeScreen({ navigation }: Props) {
     setModalVisible(true);
   };
 
-  const handleCreateDevice = (name: string) => {
-    const trimmed = name.trim();
+  const handleCreateDevice = async (deviceId: string) => {
+    const trimmed = deviceId.trim();
     if (!trimmed) {
-      Alert.alert("Missing name", "Please enter a device name.");
+      Alert.alert("Missing ID", "Please enter a valid device ID.");
       return;
     }
 
     setCreating(true);
-    addDevice(trimmed);
-    setCreating(false);
-    setModalVisible(false);
-    Alert.alert("Device added", `${trimmed} is now connected with demo sensor data.`);
+
+    try {
+      const message = await connectDevice(trimmed);
+      setModalVisible(false);
+      Alert.alert("Device updated", message);
+    } catch (err) {
+      Alert.alert("Could not connect device", (err as Error).message);
+    } finally {
+      setCreating(false);
+    }
   };
 
   return (
@@ -54,7 +60,7 @@ export function HomeScreen({ navigation }: Props) {
           </Pressable>
         </View>
 
-        <AppButton title="Connect New Device" onPress={handleAddDevice} loading={creating} />
+        <AppButton title="Connect Existing Device" onPress={handleAddDevice} loading={creating} />
 
         {loading ? <Text style={styles.helperText}>Loading your connected devices...</Text> : null}
         {error ? (
@@ -123,11 +129,11 @@ export function HomeScreen({ navigation }: Props) {
       </Screen>
       <PromptModal
         visible={modalVisible}
-        title="Connect New Device"
-        description="Enter a name for the smart garden device you want to add."
-        placeholder={`Garden Node ${devices.length + 1}`}
+        title="Connect Existing Device"
+        description="Enter a valid device ID. The device can be connected only if it currently has no owner."
+        placeholder="Device UUID"
         confirmLabel="Connect"
-        initialValue={`Garden Node ${devices.length + 1}`}
+        initialValue=""
         loading={creating}
         onCancel={() => setModalVisible(false)}
         onConfirm={handleCreateDevice}

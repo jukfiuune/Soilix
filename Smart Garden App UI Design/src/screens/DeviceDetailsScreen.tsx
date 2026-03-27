@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppButton } from "../components/AppButton";
@@ -31,11 +31,17 @@ export function DeviceDetailsScreen({ navigation, route }: Props) {
 
   const handleDisconnect = async () => {
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    removeDevice(device.id);
-    setLoading(false);
-    setModalVisible(false);
-    navigation.navigate("Main", { screen: "Home" });
+
+    try {
+      const message = await removeDevice(device.id);
+      setModalVisible(false);
+      navigation.navigate("Main", { screen: "Home" });
+      Alert.alert("Device disconnected", message);
+    } catch (err) {
+      Alert.alert("Could not disconnect device", (err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
