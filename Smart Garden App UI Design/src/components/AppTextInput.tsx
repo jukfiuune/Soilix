@@ -14,6 +14,7 @@ export function AppTextInput({ label, helperText, ...props }: Props) {
       <TextInput
         placeholderTextColor="#93a998"
         style={styles.input}
+        showSoftInputOnFocus
         {...props}
       />
       {helperText ? <Text style={styles.helper}>{helperText}</Text> : null}

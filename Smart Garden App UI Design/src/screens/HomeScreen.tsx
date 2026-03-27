@@ -19,7 +19,7 @@ type Props = CompositeScreenProps<
 >;
 
 export function HomeScreen({ navigation }: Props) {
-  const { devices, addDevice } = useDevices();
+  const { devices, loading, error, addDevice, refreshDevices } = useDevices();
   const [modalVisible, setModalVisible] = useState(false);
   const [creating, setCreating] = useState(false);
 
@@ -55,6 +55,20 @@ export function HomeScreen({ navigation }: Props) {
         </View>
 
         <AppButton title="Connect New Device" onPress={handleAddDevice} loading={creating} />
+
+        {loading ? <Text style={styles.helperText}>Loading your connected devices...</Text> : null}
+        {error ? (
+          <Text style={styles.errorText}>
+            {error}
+          </Text>
+        ) : null}
+        {!loading && !error && !devices.length ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyTitle}>No connected devices yet</Text>
+            <Text style={styles.emptyCopy}>Connect a Soilix device to see it here.</Text>
+            <AppButton title="Refresh Devices" onPress={() => void refreshDevices()} variant="secondary" />
+          </View>
+        ) : null}
 
         <View style={styles.list}>
           {devices.map((device) => (
@@ -154,6 +168,36 @@ const styles = StyleSheet.create({
     gap: 14,
     marginTop: 16,
     paddingBottom: 20,
+  },
+  helperText: {
+    marginTop: 14,
+    color: colors.textMuted,
+    fontSize: 14,
+  },
+  errorText: {
+    marginTop: 14,
+    borderRadius: 16,
+    backgroundColor: "#fdeceb",
+    color: colors.danger,
+    fontWeight: "700",
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  emptyState: {
+    marginTop: 16,
+    gap: 12,
+    borderRadius: 24,
+    backgroundColor: "#ffffff",
+    padding: 20,
+  },
+  emptyTitle: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: "800",
+  },
+  emptyCopy: {
+    color: colors.textMuted,
+    lineHeight: 20,
   },
   pressable: {
     borderRadius: 24,

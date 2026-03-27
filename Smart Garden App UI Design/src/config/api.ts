@@ -14,6 +14,12 @@ type ApiRequestOptions = {
   headers?: Record<string, string>;
 };
 
+export function getBearerAuthHeaders(accessToken: string) {
+  return {
+    Authorization: `Bearer ${accessToken}`,
+  };
+}
+
 export async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), requestTimeoutMs);

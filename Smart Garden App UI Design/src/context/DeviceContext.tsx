@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { apiRequest, getBearerAuthHeaders } from "../config/api";
+import { useAuth } from "./AuthContext";
 
 export type SensorReading = {
   airTemp: number;
@@ -24,10 +26,22 @@ type TimeRange = "1h" | "1d" | "1w" | "1m";
 
 type DeviceContextType = {
   devices: Device[];
+  loading: boolean;
+  error: string;
+  refreshDevices: () => Promise<void>;
   addDevice: (name: string) => void;
   removeDevice: (id: string) => void;
   getDevice: (id: string) => Device | undefined;
   getHistoricalData: (deviceId: string, metric: Metric, timeRange: TimeRange) => HistoricalData[];
+};
+
+type BackendDevice = {
+  id: string | number;
+  device_name?: string | null;
+};
+
+type DevicesResponse = {
+  devices: BackendDevice[];
 };
 
 const DeviceContext = createContext<DeviceContextType | undefined>(undefined);
@@ -56,14 +70,45 @@ function generateHistoricalData(baseValue: number, points: number, stepMinutes: 
   });
 }
 
-const initialDevices: Device[] = [
-  { id: "1", name: "Garden Bed A", readings: generateMockReading() },
-  { id: "2", name: "Greenhouse", readings: generateMockReading() },
-  { id: "3", name: "Backyard Garden", readings: generateMockReading() },
-];
-
 export function DeviceProvider({ children }: React.PropsWithChildren) {
-  const [devices, setDevices] = useState<Device[]>(initialDevices);
+  const { user } = useAuth();
+  const [devices, setDevices] = useState<Device[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const refreshDevices = async () => {
+    if (!user?.accessToken) {
+      setDevices([]);
+      setError("");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await apiRequest<DevicesResponse>("/api/devices", {
+        headers: getBearerAuthHeaders(user.accessToken),
+      });
+
+      setDevices(
+        response.devices.map((device) => ({
+          id: String(device.id),
+          name: device.device_name?.trim() || `Soilix Device ${device.id}`,
+          readings: generateMockReading(),
+        })),
+      );
+    } catch (err) {
+      setDevices([]);
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void refreshDevices();
+  }, [user?.accessToken]);
 
   const addDevice = (name: string) => {
     const trimmed = name.trim();
@@ -101,7 +146,9 @@ export function DeviceProvider({ children }: React.PropsWithChildren) {
   };
 
   return (
-    <DeviceContext.Provider value={{ devices, addDevice, removeDevice, getDevice, getHistoricalData }}>
+    <DeviceContext.Provider
+      value={{ devices, loading, error, refreshDevices, addDevice, removeDevice, getDevice, getHistoricalData }}
+    >
       {children}
     </DeviceContext.Provider>
   );

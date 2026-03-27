@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { apiRequest } from "../config/api";
+import { apiRequest, getBearerAuthHeaders } from "../config/api";
 
 type User = {
   email: string;
@@ -24,6 +24,11 @@ type AuthResponse = {
   access_token: string;
 };
 
+type SignupResponse = {
+  message: string;
+  display_name: string;
+};
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: React.PropsWithChildren) {
@@ -39,6 +44,10 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
       method: "POST",
       body: { email: normalizedEmail, password },
     });
+
+    if (!response.access_token || !response.refresh_token) {
+      throw new Error("Login response did not include session tokens");
+    }
 
     setUser({
       id: normalizedEmail,
@@ -60,21 +69,13 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
       throw new Error("Passwords do not match");
     }
 
-    const response = await apiRequest<AuthResponse>("/api/auth/signup", {
+    await apiRequest<SignupResponse>("/api/auth/signup", {
       method: "POST",
       body: {
         email: normalizedEmail,
         password,
         display_name: getDisplayNameFallback(normalizedEmail),
       },
-    });
-
-    setUser({
-      id: normalizedEmail,
-      email: normalizedEmail,
-      displayName: response.display_name || getDisplayNameFallback(normalizedEmail),
-      accessToken: response.access_token,
-      refreshToken: response.refresh_token,
     });
   };
 
@@ -84,6 +85,7 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
         await apiRequest<{ message: string }>("/api/auth/logout", {
           method: "POST",
           body: { access_token: user.accessToken },
+          headers: getBearerAuthHeaders(user.accessToken),
         });
       } catch {
         // Even if the backend logout fails, we still end the local session.

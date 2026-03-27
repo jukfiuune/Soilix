@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppButton } from "../components/AppButton";
 import { AppTextInput } from "../components/AppTextInput";
 import { Screen } from "../components/Screen";
 import { SectionCard } from "../components/SectionCard";
+import { apiBaseUrl } from "../config/api";
 import { useAuth } from "../context/AuthContext";
 import { RootStackParamList } from "../navigation/types";
 import { colors } from "../theme/colors";
@@ -25,6 +26,9 @@ export function SignUpScreen({ navigation }: Props) {
 
     try {
       await signup(email, password, confirmPassword);
+      Alert.alert("Account created", "You can log in with your new account now.", [
+        { text: "OK", onPress: () => navigation.navigate("Auth") },
+      ]);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -46,8 +50,11 @@ export function SignUpScreen({ navigation }: Props) {
           value={email}
           onChangeText={setEmail}
           placeholder="your@email.com"
+          autoFocus
           autoCapitalize="none"
+          autoCorrect={false}
           keyboardType="email-address"
+          helperText={`Submitting as: ${email.trim().toLowerCase() || "(empty)"}`}
         />
         <AppTextInput
           label="Password"
@@ -66,7 +73,10 @@ export function SignUpScreen({ navigation }: Props) {
         <AppButton title="Sign Up" onPress={handleSignUp} loading={loading} />
       </SectionCard>
 
-      <AppButton title="Back to Login" onPress={() => navigation.goBack()} variant="secondary" />
+      <View style={styles.footer}>
+        <Text style={styles.debugText}>API: {apiBaseUrl}</Text>
+        <AppButton title="Back to Login" onPress={() => navigation.goBack()} variant="secondary" />
+      </View>
     </Screen>
   );
 }
@@ -98,5 +108,13 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     paddingHorizontal: 14,
     paddingVertical: 12,
+  },
+  footer: {
+    gap: 10,
+  },
+  debugText: {
+    textAlign: "center",
+    color: colors.textMuted,
+    fontSize: 12,
   },
 });
