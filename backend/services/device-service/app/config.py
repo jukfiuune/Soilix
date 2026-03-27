@@ -10,6 +10,9 @@ class Config:
 
     # Communication
     API_SERVICE_URL = os.getenv("API_SERVICE_URL")
+    #Database
+    SUPABASE_URL = os.getenv("SUPABASE_URL")
+    SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
     # Device-specific
     DEVICE_TIMEOUT = int(os.getenv("DEVICE_TIMEOUT", 5))
