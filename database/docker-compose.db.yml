@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16
+    container_name: soilix-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: soilix
+      POSTGRES_USER: soilix_user
+      POSTGRES_PASSWORD: soilix_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - soilix_postgres_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+
+volumes:
+  soilix_postgres_data:
