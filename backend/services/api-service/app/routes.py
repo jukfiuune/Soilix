@@ -258,5 +258,4 @@ def device_history(device_id):
         return jsonify({"readings": readings}), 200
     except Exception as e:
         error = str(e)
-        return jsonify({"message": "Failed to fetch device history",
-                        "error":error}), 400
+        return jsonify({"message": "Failed to fetch device history"}), 400
