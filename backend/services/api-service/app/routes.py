@@ -92,17 +92,18 @@ def connect_device():
     try:
         device_res = supabase.from_("devices").select("*").eq("id", device_id).execute()
         #if device doesn't exist, create it and associate with user
-        if not device_res.data:
-            return jsonify({"message": "Device not found"}), 404
+    except: 
+        return jsonify({"message": "Device not found"}), 404
+    try:
         # Check if device exists is it connected to the user
         device = device_res.data[0] 
-        if device["owner_id"] != user.id:
-            return jsonify({"message": "Device is already connected to another user"}), 400
+        if device["owner_id"] is None: 
+            response = supabase.table("devices").update({"owner_id": user.id, "device_name": device_name}).eq("id", device_id).execute()
+            return jsonify({"message": "Device connected successfully",
+                            "name":device_name}), 200
         elif device["owner_id"] == user.id:
             return jsonify({"message": "Device is already connected to you"}), 200
-        elif device["owner_id"] is None: 
-            response = supabase.table("devices").update({"owner_id": user.id, "device_name": device_name}).eq("id", device_id).execute()
-            return jsonify({"message": "Device connected successfully"}), 200
+        elif device["owner_id"] != user.id:
+            return jsonify({"message": "Device is already connected to another user"}), 400
     except:
         return jsonify({"message": "Failed to connect device"}), 400
-        
