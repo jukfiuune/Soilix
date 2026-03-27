@@ -152,3 +152,46 @@ def rename(device_id):
                         "name": new_name}), 200
     except:
         return jsonify({"message": "Failed to rename device"}), 400
+
+    
+@api_bp.route("/api/devices/live", methods=["GET"])
+@require_auth
+def last_reading_all_devices_user():
+    user = request.user
+    supabase = current_app.extensions.get("supabase_client")
+
+    try:
+        devices_res = supabase.from_("devices").select("*").eq("owner_id", user.id).execute()
+        devices = devices_res.data
+        result = []
+        for device in devices:
+            reading_res = supabase.from_("device_readings").select("*").eq("device_id", device["id"]).order("recorded_at", desc=True).limit(1).execute()
+            if reading_res.data:
+                last_reading = reading_res.data[0]
+                result.append({
+                    "device_id": device["id"],
+                    "device_name": device["device_name"],
+                    "air_temp_c": last_reading["air_temp_c"],
+                    "air_humidity_pct": last_reading["air_humidity_pct"],
+                    "air_pressure_hpa": last_reading["air_pressure_hpa"],
+                    "soil_humidity_pct": last_reading["soil_humidity_pct"],
+                    "soil_temp_c": last_reading["soil_temp_c"],
+                    "recorded_at": last_reading["recorded_at"]
+                })
+            else:
+                result.append({
+                    "device_id": device["id"],
+                    "device_name": device["device_name"],
+                    "air_temp_c": None,
+                    "air_humidity_pct": None,
+                    "air_pressure_hpa": None,
+                    "soil_humidity_pct": None,
+                    "soil_temp_c": None,
+                    "recorded_at": None
+                })
+        
+        result.sort(key=lambda x: x["device_name"])
+        return jsonify({"devices": result}), 200
+    except:
+        return jsonify({"message": "Failed to fetch live readings"}), 400
+
