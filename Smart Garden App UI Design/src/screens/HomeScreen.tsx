@@ -1,0 +1,180 @@
+import React, { useState } from "react";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { CompositeScreenProps } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppButton } from "../components/AppButton";
+import { MetricPill } from "../components/MetricPill";
+import { PromptModal } from "../components/PromptModal";
+import { Screen } from "../components/Screen";
+import { SectionCard } from "../components/SectionCard";
+import { useDevices } from "../context/DeviceContext";
+import { MainTabParamList, RootStackParamList } from "../navigation/types";
+import { colors } from "../theme/colors";
+
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<MainTabParamList, "Home">,
+  NativeStackScreenProps<RootStackParamList>
+>;
+
+export function HomeScreen({ navigation }: Props) {
+  const { devices, addDevice } = useDevices();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [creating, setCreating] = useState(false);
+
+  const handleAddDevice = () => {
+    setModalVisible(true);
+  };
+
+  const handleCreateDevice = (name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) {
+      Alert.alert("Missing name", "Please enter a device name.");
+      return;
+    }
+
+    setCreating(true);
+    addDevice(trimmed);
+    setCreating(false);
+    setModalVisible(false);
+    Alert.alert("Device added", `${trimmed} is now connected with demo sensor data.`);
+  };
+
+  return (
+    <>
+      <Screen>
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.eyebrow}>Smart Garden</Text>
+            <Text style={styles.title}>Your devices</Text>
+          </View>
+          <Pressable onPress={() => navigation.navigate("Profile")} style={styles.headerBadge}>
+            <MaterialCommunityIcons name="account-outline" size={22} color={colors.primary} />
+          </Pressable>
+        </View>
+
+        <AppButton title="Connect New Device" onPress={handleAddDevice} loading={creating} />
+
+        <View style={styles.list}>
+          {devices.map((device) => (
+            <Pressable
+              key={device.id}
+              onPress={() => navigation.navigate("DeviceDetails", { deviceId: device.id })}
+              style={({ pressed }) => [styles.pressable, pressed ? styles.pressed : null]}
+            >
+              <SectionCard>
+                <View style={styles.deviceHeader}>
+                  <View>
+                    <Text style={styles.deviceName}>{device.name}</Text>
+                    <Text style={styles.deviceSub}>Live environmental readings</Text>
+                  </View>
+                  <MaterialCommunityIcons name="chevron-right" size={24} color="#7b9681" />
+                </View>
+
+                <MetricPill
+                  icon="thermometer"
+                  label="Air Temperature"
+                  value={`${device.readings.airTemp}C`}
+                  tint="#f28b37"
+                />
+                <MetricPill
+                  icon="water-percent"
+                  label="Air Humidity"
+                  value={`${device.readings.airHumidity}%`}
+                  tint="#4d96d8"
+                />
+                <MetricPill
+                  icon="gauge"
+                  label="Air Pressure"
+                  value={`${device.readings.airPressure} hPa`}
+                  tint="#9566d8"
+                />
+                <MetricPill
+                  icon="sprout"
+                  label="Soil Humidity"
+                  value={`${device.readings.soilHumidity}%`}
+                  tint="#4aaf5d"
+                />
+                <MetricPill
+                  icon="thermometer-lines"
+                  label="Soil Temperature"
+                  value={`${device.readings.soilTemp}C`}
+                  tint="#c88f31"
+                />
+              </SectionCard>
+            </Pressable>
+          ))}
+        </View>
+      </Screen>
+      <PromptModal
+        visible={modalVisible}
+        title="Connect New Device"
+        description="Enter a name for the smart garden device you want to add."
+        placeholder={`Garden Node ${devices.length + 1}`}
+        confirmLabel="Connect"
+        initialValue={`Garden Node ${devices.length + 1}`}
+        loading={creating}
+        onCancel={() => setModalVisible(false)}
+        onConfirm={handleCreateDevice}
+      />
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 14,
+  },
+  eyebrow: {
+    color: colors.primary,
+    fontWeight: "700",
+    fontSize: 13,
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
+  },
+  title: {
+    color: colors.text,
+    fontSize: 30,
+    fontWeight: "800",
+    marginTop: 4,
+  },
+  headerBadge: {
+    width: 48,
+    height: 48,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+  },
+  list: {
+    gap: 14,
+    marginTop: 16,
+    paddingBottom: 20,
+  },
+  pressable: {
+    borderRadius: 24,
+  },
+  pressed: {
+    opacity: 0.95,
+  },
+  deviceHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  deviceName: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: colors.text,
+  },
+  deviceSub: {
+    marginTop: 4,
+    color: colors.textMuted,
+    fontSize: 13,
+  },
+});
