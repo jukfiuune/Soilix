@@ -26,8 +26,7 @@ def login():
         "access_token": response.session.access_token
     }), 200
 
-    
-
+     
 @api_bp.route("/api/auth/signup", methods=["POST"])
 def signup():
     data = request.json
@@ -46,6 +45,7 @@ def signup():
         "display_name": response.user.user_metadata.get("display_name", "")
     }), 201
 
+
 # Logout endpoint - since Supabase doesn't have a server-side logout, we just return success and let the client delete tokens
 @api_bp.route("/api/auth/logout", methods=["POST"])
 def logout():
@@ -61,6 +61,7 @@ def logout():
     return jsonify({"message": "Logout successful"}), 200
 
 
+
 @api_bp.route("/api/devices", methods=["GET"])
 @require_auth
 def get_devices():
@@ -74,3 +75,34 @@ def get_devices():
         return jsonify({"message": "Failed to fetch devices"}), 400
 
     return jsonify({"devices": devices}), 200
+
+
+@api_bp.route("/api/devices/connect", methods=["POST"])
+@require_auth
+def connect_device():
+    user = request.user
+    supabase = current_app.extensions.get("supabase_client")
+
+    data = request.json
+    device_id = data.get("device_id")
+    device_name = data.get("device_name", "Soilix Device")
+    if not device_id:
+        return jsonify({"message": "Device ID is required"}), 400
+    
+    try:
+        device_res = supabase.from_("devices").select("*").eq("id", device_id).execute()
+        #if device doesn't exist, create it and associate with user
+        if not device_res.data:
+            return jsonify({"message": "Device not found"}), 404
+        # Check if device exists is it connected to the user
+        device = device_res.data[0] 
+        if device["owner_id"] != user.id:
+            return jsonify({"message": "Device is already connected to another user"}), 400
+        elif device["owner_id"] == user.id:
+            return jsonify({"message": "Device is already connected to you"}), 200
+        elif device["owner_id"] is None: 
+            response = supabase.table("devices").update({"owner_id": user.id, "device_name": device_name}).eq("id", device_id).execute()
+            return jsonify({"message": "Device connected successfully"}), 200
+    except:
+        return jsonify({"message": "Failed to connect device"}), 400
+        
