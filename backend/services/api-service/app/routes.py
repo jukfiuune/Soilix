@@ -1,4 +1,5 @@
 from flask import Blueprint, request, Response, jsonify, current_app
+from .middleware import require_auth
 
 api_bp = Blueprint("api", __name__)
 
@@ -58,3 +59,18 @@ def logout():
     except:
         return jsonify({"message": "Logout failed"}), 400
     return jsonify({"message": "Logout successful"}), 200
+
+
+@api_bp.route("/api/devices", methods=["GET"])
+@require_auth
+def get_devices():
+    user = request.user
+    supabase = current_app.extensions.get("supabase_client")
+
+    try:
+        response = supabase.from_("devices").select("*").eq("owner_id", user.id).execute()
+        devices = response.data
+    except:
+        return jsonify({"message": "Failed to fetch devices"}), 400
+
+    return jsonify({"devices": devices}), 200
