@@ -1,17 +1,34 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppButton } from "../components/AppButton";
 import { Screen } from "../components/Screen";
 import { SectionCard } from "../components/SectionCard";
 import { SimpleLineChart } from "../components/SimpleLineChart";
-import { useDevices, SensorReading } from "../context/DeviceContext";
+import { apiRequest, getBearerAuthHeaders } from "../config/api";
+import { useAuth } from "../context/AuthContext";
+import { useDevices } from "../context/DeviceContext";
 import { RootStackParamList } from "../navigation/types";
 import { colors } from "../theme/colors";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Statistics">;
-type Metric = keyof SensorReading;
-type TimeRange = "1h" | "1d" | "1w" | "1m";
+type Metric = "airTemp" | "airHumidity" | "airPressure" | "soilHumidity" | "soilTemp";
+type TimeRange = "10 minutes" | "30 minutes" | "1 hour" | "1 day";
+type HistoricalDataPoint = {
+  timestamp: string;
+  value: number;
+};
+type BackendReading = {
+  recorded_at: string;
+  air_temp_c: number;
+  air_humidity_pct: number;
+  air_pressure_hpa: number;
+  soil_humidity_pct: number;
+  soil_temp_c: number;
+};
+type HistoryResponse = {
+  readings: BackendReading[];
+};
 
 const metricConfig: Record<Metric, { label: string; unit: string; color: string }> = {
   airTemp: { label: "Air Temperature", unit: "C", color: "#f28b37" },
@@ -21,26 +38,71 @@ const metricConfig: Record<Metric, { label: string; unit: string; color: string 
   soilTemp: { label: "Soil Temperature", unit: "C", color: "#c88f31" },
 };
 
-const timeRanges: TimeRange[] = ["1h", "1d", "1w", "1m"];
+const timeRanges: TimeRange[] = ["10 minutes", "30 minutes", "1 hour", "1 day"];
+const metricFieldMap: Record<Metric, keyof BackendReading> = {
+  airTemp: "air_temp_c",
+  airHumidity: "air_humidity_pct",
+  airPressure: "air_pressure_hpa",
+  soilHumidity: "soil_humidity_pct",
+  soilTemp: "soil_temp_c",
+};
 
 export function StatisticsScreen({ navigation, route }: Props) {
-  const { getDevice, getHistoricalData } = useDevices();
+  const { user } = useAuth();
+  const { getDevice } = useDevices();
   const [metric, setMetric] = useState<Metric>("airTemp");
-  const [range, setRange] = useState<TimeRange>("1d");
+  const [range, setRange] = useState<TimeRange>("1 hour");
+  const [readings, setReadings] = useState<BackendReading[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const device = getDevice(route.params.deviceId);
 
-  const data = useMemo(() => {
-    if (!device) {
-      return [];
-    }
+  useEffect(() => {
+    const loadHistory = async () => {
+      if (!device || !user?.accessToken) {
+        setReadings([]);
+        setError("");
+        return;
+      }
 
-    return getHistoricalData(device.id, metric, range);
-  }, [device, getHistoricalData, metric, range]);
+      setLoading(true);
+      setError("");
+
+      try {
+        const response = await apiRequest<HistoryResponse>(
+          `/api/devices/${device.id}/history?range=${encodeURIComponent(range)}`,
+          {
+            headers: getBearerAuthHeaders(user.accessToken),
+          },
+        );
+
+        setReadings([...response.readings].reverse());
+      } catch (err) {
+        setReadings([]);
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadHistory();
+  }, [device, range, user?.accessToken]);
+
+  const data = useMemo<HistoricalDataPoint[]>(() => {
+    const field = metricFieldMap[metric];
+
+    return readings
+      .filter((reading) => reading.recorded_at && typeof reading[field] === "number")
+      .map((reading) => ({
+        timestamp: reading.recorded_at,
+        value: Number(reading[field]),
+      }));
+  }, [metric, readings]);
 
   const stats = useMemo(() => {
     const values = data.map((item) => item.value);
     if (!values.length) {
-      return { min: 0, avg: 0, max: 0 };
+      return null;
     }
 
     const avg = values.reduce((sum, value) => sum + value, 0) / values.length;
@@ -91,6 +153,9 @@ export function StatisticsScreen({ navigation, route }: Props) {
         </View>
 
         <Text style={[styles.sectionLabel, styles.metricLabel]}>{config.label}</Text>
+        {loading ? <Text style={styles.infoText}>Loading history...</Text> : null}
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        {!loading && !error && !chartData.length ? <Text style={styles.infoText}>No historical readings yet.</Text> : null}
         <SimpleLineChart data={chartData} color={config.color} unit={config.unit} />
       </SectionCard>
 
@@ -109,21 +174,21 @@ export function StatisticsScreen({ navigation, route }: Props) {
       </View>
 
       <View style={styles.statsRow}>
-        <StatCard label="Min" value={stats.min} unit={config.unit} />
-        <StatCard label="Avg" value={stats.avg} unit={config.unit} />
-        <StatCard label="Max" value={stats.max} unit={config.unit} />
+        <StatCard label="Min" value={stats?.min ?? null} unit={config.unit} />
+        <StatCard label="Avg" value={stats?.avg ?? null} unit={config.unit} />
+        <StatCard label="Max" value={stats?.max ?? null} unit={config.unit} />
       </View>
     </Screen>
   );
 }
 
-function StatCard({ label, value, unit }: { label: string; value: number; unit: string }) {
+function StatCard({ label, value, unit }: { label: string; value: number | null; unit: string }) {
   return (
     <SectionCard style={styles.statCard}>
       <Text style={styles.statLabel}>{label}</Text>
       <Text style={styles.statValue}>
-        {value.toFixed(1)}
-        <Text style={styles.statUnit}>{unit}</Text>
+        {value === null ? "N/A" : value.toFixed(1)}
+        {value === null ? null : <Text style={styles.statUnit}>{unit}</Text>}
       </Text>
     </SectionCard>
   );
@@ -132,11 +197,14 @@ function StatCard({ label, value, unit }: { label: string; value: number; unit: 
 function formatLabel(timestamp: string, range: TimeRange) {
   const date = new Date(timestamp);
 
-  if (range === "1h" || range === "1d") {
+  if (range !== "1 day") {
     return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
   }
 
-  return `${date.getDate()}/${date.getMonth() + 1}`;
+  return `${date.getDate()}/${date.getMonth() + 1} ${date
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
 }
 
 const styles = StyleSheet.create({
@@ -169,6 +237,15 @@ const styles = StyleSheet.create({
   },
   metricLabel: {
     marginTop: 4,
+  },
+  infoText: {
+    color: colors.textMuted,
+    fontSize: 14,
+  },
+  errorText: {
+    color: colors.danger,
+    fontSize: 14,
+    fontWeight: "600",
   },
   segmentRow: {
     flexDirection: "row",

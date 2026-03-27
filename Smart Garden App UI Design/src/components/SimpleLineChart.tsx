@@ -40,7 +40,7 @@ export function SimpleLineChart({ data, color, unit }: Props) {
     .join(" ");
 
   const lastPoint = data[data.length - 1];
-  const labelIndexes = [0, Math.floor((data.length - 1) / 2), data.length - 1];
+  const labelIndexes = Array.from(new Set([0, Math.floor((data.length - 1) / 2), data.length - 1]));
 
   return (
     <View style={styles.frame}>
