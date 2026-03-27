@@ -5,7 +5,6 @@ import { AppButton } from "../components/AppButton";
 import { AppTextInput } from "../components/AppTextInput";
 import { Screen } from "../components/Screen";
 import { SectionCard } from "../components/SectionCard";
-import { apiBaseUrl } from "../config/api";
 import { useAuth } from "../context/AuthContext";
 import { RootStackParamList } from "../navigation/types";
 import { colors } from "../theme/colors";
@@ -54,7 +53,6 @@ export function SignUpScreen({ navigation }: Props) {
           autoCapitalize="none"
           autoCorrect={false}
           keyboardType="email-address"
-          helperText={`Submitting as: ${email.trim().toLowerCase() || "(empty)"}`}
         />
         <AppTextInput
           label="Password"
@@ -74,7 +72,6 @@ export function SignUpScreen({ navigation }: Props) {
       </SectionCard>
 
       <View style={styles.footer}>
-        <Text style={styles.debugText}>API: {apiBaseUrl}</Text>
         <AppButton title="Back to Login" onPress={() => navigation.goBack()} variant="secondary" />
       </View>
     </Screen>
@@ -111,10 +108,5 @@ const styles = StyleSheet.create({
   },
   footer: {
     gap: 10,
-  },
-  debugText: {
-    textAlign: "center",
-    color: colors.textMuted,
-    fontSize: 12,
   },
 });
