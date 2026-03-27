@@ -14,7 +14,8 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#eefbf3"
-      }
+      },
+      "package": "com.anonymous.smartgardennative"
     },
     "plugins": [
       "expo-font",

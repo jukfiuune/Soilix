@@ -17,8 +17,8 @@ export function ProfileScreen(_: Props) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     Alert.alert("Logged out", "Your demo session has ended.");
   };
 

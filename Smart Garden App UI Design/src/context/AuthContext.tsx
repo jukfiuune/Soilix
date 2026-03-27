@@ -1,16 +1,27 @@
 import React, { createContext, useContext, useState } from "react";
+import { apiRequest } from "../config/api";
 
 type User = {
   email: string;
   id: string;
+  displayName: string;
+  accessToken: string;
+  refreshToken: string;
 };
 
 type AuthContextType = {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, confirmPassword: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   deleteAccount: () => Promise<void>;
+};
+
+type AuthResponse = {
+  message: string;
+  display_name: string;
+  refresh_token: string;
+  access_token: string;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,26 +29,73 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = async (email: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 450));
-    setUser({ email, id: "1" });
+  const login = async (email: string, password: string) => {
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || !password) {
+      throw new Error("Email and password are required");
+    }
+
+    const response = await apiRequest<AuthResponse>("/api/auth/login", {
+      method: "POST",
+      body: { email: normalizedEmail, password },
+    });
+
+    setUser({
+      id: normalizedEmail,
+      email: normalizedEmail,
+      displayName: response.display_name || getDisplayNameFallback(normalizedEmail),
+      accessToken: response.access_token,
+      refreshToken: response.refresh_token,
+    });
   };
 
   const signup = async (email: string, password: string, confirmPassword: string) => {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail || !password || !confirmPassword) {
+      throw new Error("All fields are required");
+    }
+
     if (password !== confirmPassword) {
       throw new Error("Passwords do not match");
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 450));
-    setUser({ email, id: "1" });
+    const response = await apiRequest<AuthResponse>("/api/auth/signup", {
+      method: "POST",
+      body: {
+        email: normalizedEmail,
+        password,
+        display_name: getDisplayNameFallback(normalizedEmail),
+      },
+    });
+
+    setUser({
+      id: normalizedEmail,
+      email: normalizedEmail,
+      displayName: response.display_name || getDisplayNameFallback(normalizedEmail),
+      accessToken: response.access_token,
+      refreshToken: response.refresh_token,
+    });
   };
 
-  const logout = () => {
+  const logout = async () => {
+    if (user?.accessToken) {
+      try {
+        await apiRequest<{ message: string }>("/api/auth/logout", {
+          method: "POST",
+          body: { access_token: user.accessToken },
+        });
+      } catch {
+        // Even if the backend logout fails, we still end the local session.
+      }
+    }
+
     setUser(null);
   };
 
   const deleteAccount = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 450));
+    // There is no backend delete-account endpoint yet, so for now
+    // we only clear the local session to keep the UI flow usable.
     setUser(null);
   };
 
@@ -46,6 +104,10 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
       {children}
     </AuthContext.Provider>
   );
+}
+
+function getDisplayNameFallback(email: string) {
+  return email.split("@")[0] || "Gardener";
 }
 
 export function useAuth() {

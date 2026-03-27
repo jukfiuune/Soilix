@@ -16,13 +16,17 @@ export function LoginScreen({ navigation }: Props) {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setError("");
     setLoading(true);
 
     try {
       await login(email, password);
+    } catch (err) {
+      setError((err as Error).message);
     } finally {
       setLoading(false);
     }
@@ -39,6 +43,7 @@ export function LoginScreen({ navigation }: Props) {
       </View>
 
       <SectionCard style={styles.card}>
+        {error ? <Text style={styles.error}>{error}</Text> : null}
         <AppTextInput
           label="Email"
           value={email}
@@ -104,6 +109,14 @@ const styles = StyleSheet.create({
   },
   card: {
     gap: 16,
+  },
+  error: {
+    borderRadius: 16,
+    backgroundColor: "#fdeceb",
+    color: colors.danger,
+    fontWeight: "700",
+    paddingHorizontal: 14,
+    paddingVertical: 12,
   },
   footer: {
     gap: 10,
