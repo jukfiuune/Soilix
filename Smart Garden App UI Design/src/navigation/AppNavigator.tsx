@@ -1,8 +1,10 @@
 import React from "react";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
+import { Screen } from "../components/Screen";
 import { LoginScreen } from "../screens/LoginScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
 import { HomeScreen } from "../screens/HomeScreen";
@@ -42,7 +44,18 @@ function MainTabs() {
 }
 
 export function AppNavigator() {
-  const { user } = useAuth();
+  const { user, initializing } = useAuth();
+
+  if (initializing) {
+    return (
+      <Screen scroll={false} contentStyle={styles.loadingContent}>
+        <View style={styles.loadingWrap}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={styles.loadingText}>Restoring session...</Text>
+        </View>
+      </Screen>
+    );
+  }
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -61,3 +74,19 @@ export function AppNavigator() {
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContent: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingWrap: {
+    alignItems: "center",
+    gap: 12,
+  },
+  loadingText: {
+    color: colors.textMuted,
+    fontSize: 15,
+    fontWeight: "600",
+  },
+});

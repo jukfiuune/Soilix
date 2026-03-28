@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { apiRequest, getBearerAuthHeaders } from "../config/api";
 
 type User = {
@@ -11,6 +12,7 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
+  initializing: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, confirmPassword: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -29,9 +31,33 @@ type SignupResponse = {
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const authStorageKey = "soilix.auth.user";
 
 export function AuthProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
+  const [initializing, setInitializing] = useState(true);
+
+  useEffect(() => {
+    const restoreSession = async () => {
+      try {
+        const storedUser = await AsyncStorage.getItem(authStorageKey);
+        if (!storedUser) {
+          return;
+        }
+
+        const parsedUser = JSON.parse(storedUser) as User;
+        if (parsedUser?.accessToken && parsedUser?.email) {
+          setUser(parsedUser);
+        }
+      } catch {
+        await AsyncStorage.removeItem(authStorageKey);
+      } finally {
+        setInitializing(false);
+      }
+    };
+
+    void restoreSession();
+  }, []);
 
   const login = async (email: string, password: string) => {
     const normalizedEmail = email.trim().toLowerCase();
@@ -48,13 +74,16 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
       throw new Error("Login response did not include session tokens");
     }
 
-    setUser({
+    const nextUser = {
       id: normalizedEmail,
       email: normalizedEmail,
       displayName: response.display_name || getDisplayNameFallback(normalizedEmail),
       accessToken: response.access_token,
       refreshToken: response.refresh_token,
-    });
+    };
+
+    setUser(nextUser);
+    await AsyncStorage.setItem(authStorageKey, JSON.stringify(nextUser));
   };
 
   const signup = async (email: string, password: string, confirmPassword: string) => {
@@ -92,10 +121,11 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
     }
 
     setUser(null);
+    await AsyncStorage.removeItem(authStorageKey);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, initializing, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );
