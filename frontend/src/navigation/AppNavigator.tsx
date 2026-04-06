@@ -1,0 +1,98 @@
+import React from "react";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAuth } from "../context/AuthContext";
+import { Screen } from "../components/Screen";
+import { LoginScreen } from "../screens/LoginScreen";
+import { SignUpScreen } from "../screens/SignUpScreen";
+import { HomeScreen } from "../screens/HomeScreen";
+import { ProfileScreen } from "../screens/ProfileScreen";
+import { DeviceDetailsScreen } from "../screens/DeviceDetailsScreen";
+import { StatisticsScreen } from "../screens/StatisticsScreen";
+import { colors } from "../theme/colors";
+import { MainTabParamList, RootStackParamList } from "./types";
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<MainTabParamList>();
+
+function MainTabs() {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: "#89a290",
+        tabBarStyle: {
+          // Stretch the white background to cover the OS buttons
+          minHeight: 60 + insets.bottom,
+          paddingTop: 8,
+          // Push the icons up so they don't hide under the OS buttons
+          paddingBottom: insets.bottom || 8,
+          backgroundColor: "#ffffff",
+          borderTopColor: colors.border,
+          elevation: 0, // Removes Android shadow gap
+        },
+        tabBarIcon: ({ color, size }) => {
+          const iconName = route.name === "Home" ? "home-variant-outline" : "account-outline";
+          return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+    </Tab.Navigator>
+  );
+}
+
+export function AppNavigator() {
+  const { user, initializing } = useAuth();
+
+  if (initializing) {
+    return (
+      <Screen scroll={false} contentStyle={styles.loadingContent}>
+        <View style={styles.loadingWrap}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={styles.loadingText}>Restoring session...</Text>
+        </View>
+      </Screen>
+    );
+  }
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {user ? (
+        <>
+          <Stack.Screen name="Main" component={MainTabs} />
+          <Stack.Screen name="DeviceDetails" component={DeviceDetailsScreen} />
+          <Stack.Screen name="Statistics" component={StatisticsScreen} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Auth" component={LoginScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+        </>
+      )}
+    </Stack.Navigator>
+  );
+}
+
+const styles = StyleSheet.create({
+  loadingContent: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingWrap: {
+    alignItems: "center",
+    gap: 12,
+  },
+  loadingText: {
+    color: colors.textMuted,
+    fontSize: 15,
+    fontWeight: "600",
+  },
+});
