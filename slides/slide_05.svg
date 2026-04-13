@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1920"
+   height="1080"
+   viewBox="0 0 1920 1080"
+   version="1.1"
+   id="svg17323"
+   sodipodi:docname="slide_05.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xml:space="preserve"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview17325"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="1132.078"
+     inkscape:cy="697.91439"
+     inkscape:window-width="1854"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="setup-step-1" /><defs
+     id="defs17239"><linearGradient
+       id="hero-bg"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%"><stop
+         offset="0%"
+         stop-color="#0d2318"
+         id="stop17224" /><stop
+         offset="100%"
+         stop-color="#132e20"
+         id="stop17226" /></linearGradient><linearGradient
+       id="leaf"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%"><stop
+         offset="0%"
+         stop-color="#5DCAA5"
+         id="stop17229" /><stop
+         offset="100%"
+         stop-color="#3DA882"
+         id="stop17231" /></linearGradient><linearGradient
+       id="pill-fill"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1"><stop
+         offset="0%"
+         stop-color="#12442f"
+         id="stop17234" /><stop
+         offset="100%"
+         stop-color="#1b5036"
+         id="stop17236" /></linearGradient></defs><style
+     id="style17241">
+    text, tspan { font-family: 'Inter', sans-serif; }
+    .title { font-size: 72px; font-weight: bold; fill: #ffffff; }
+    .subtitle { font-size: 38px; font-weight: 600; fill: #9fe1cb; }
+    .label { font-size: 28px; font-weight: 500; fill: #888888; letter-spacing: 2px; text-transform: uppercase; }
+    .text-main { font-size: 36px; font-weight: bold; fill: #aeaeae; }
+    .text-body { font-size: 28px; fill: #888888; }
+    .stat-val { font-size: 120px; font-weight: bold; fill: #5DCAA5; }
+    .stat-label { font-size: 32px; font-weight: 600; fill: #dddddd; }
+  </style><rect
+     width="1920"
+     height="1080"
+     fill="#111111"
+     id="rect17243" /><text
+     x="150"
+     y="136.87352"
+     class="label"
+     id="text17247">ПРИЛОЖЕНИЕТО</text><text
+     x="150"
+     y="226.87352"
+     class="title"
+     id="text17249">Мобилно приложение — функции</text><g
+     id="group-how-to-setup"
+     inkscape:label="App"
+     transform="matrix(7.3770566,0,0,7.3770566,106.72047,-1973.4746)">
+      
+      
+      <g
+   id="setup-step-1"
+   transform="translate(20,308)"
+   inkscape:label="1">
+         <rect
+   width="60"
+   height="42"
+   rx="4"
+   fill="#161616"
+   stroke="#333333"
+   stroke-width="0.2"
+   id="rect2"
+   x="0"
+   y="0" />
+         
+         
+         
+         <text
+   xml:space="preserve"
+   style="font-size:4.10245px;font-family:Inter, sans-serif;text-anchor:middle;fill:#dddddd;stroke:none;stroke-width:1.17213"
+   x="29.988234"
+   y="29.828718"
+   id="text6"><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="29.828718"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan6">Следете всички показатели</tspan><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="34.956779"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21795">от устройството на живо</tspan></text><text
+   xml:space="preserve"
+   style="font-weight:bold;font-size:4.88px;line-height:normal;font-family:Inter, sans-serif;text-decoration-color:#000000;fill:#dddddd;fill-opacity:1;stroke-width:0.135555;-inkscape-stroke:none;stop-color:#000000"
+   x="24.453331"
+   y="13.838844"
+   id="text21894"><tspan
+     sodipodi:role="line"
+     id="tspan21892"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="24.453331"
+     y="13.838844">На живо</tspan></text><circle
+   cx="12.786027"
+   cy="12.092242"
+   r="8"
+   fill="#0d2318"
+   id="circle4"
+   style="fill:#0f1f2e;fill-opacity:1" /><g
+   style="fill:#2f7fb1;fill-opacity:1"
+   id="g21210"
+   transform="matrix(0.00860928,0,0,0.00860928,-72.020225,71.928196)"><path
+     d="m 9992.0576,-6808.6659 q 58.5004,-58.5 58.5004,-141.5 0,-83 -58.5004,-141.5 -58.5,-58.5 -141.5,-58.5 -83,0 -141.5,58.5 -58.5,58.5 -58.5,141.5 0,83 58.5,141.5 58.5,58.5 141.5,58.5 83,0 141.5,-58.5 z m -141.5,258.5 q -83,0 -156,-31.5 -73,-31.5 -127,-85.5 -54,-54 -85.5,-127 -31.5,-73 -31.5,-156 0,-83 31.5,-156 31.5,-73 85.5,-127 54,-54 127,-85.5 73,-31.5 156,-31.5 83,0 156.0004,31.5 73,31.5 127,85.5 54,54 85.5,127 31.5,73 31.5,156 0,83 -31.5,156 -31.5,73 -85.5,127 -54,54 -127,85.5 -73.0004,31.5 -156.0004,31.5 z m 0,-80 q 134,0 227.0004,-93 93,-93 93,-227 0,-134 -93,-227 -93.0004,-93 -227.0004,-93 -134,0 -227,93 -93,93 -93,227 0,134 93,227 93,93 227,93 z"
+     id="path21201"
+     style="fill:#2f7fb1;fill-opacity:1" /></g>
+         
+      </g><g
+   id="g20861"
+   transform="translate(85.666667,308)"
+   inkscape:label="2">
+         <rect
+   width="60"
+   height="42"
+   rx="4"
+   fill="#161616"
+   stroke="#333333"
+   stroke-width="0.2"
+   id="rect20843"
+   x="0"
+   y="0" />
+         
+         
+         
+         <text
+   xml:space="preserve"
+   style="font-size:4.10245px;font-family:Inter, sans-serif;text-anchor:middle;fill:#dddddd;stroke:none;stroke-width:1.17213"
+   x="29.988234"
+   y="29.828718"
+   id="text20847"><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="29.828718"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21801">Графики 7 дена, 30 дена,</tspan><tspan
+     sodipodi:role="line"
+     x="29.988235"
+     y="34.956779"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21805">90 дена или 1 година</tspan></text><text
+   xml:space="preserve"
+   style="font-weight:bold;font-size:4.88px;line-height:normal;font-family:Inter, sans-serif;text-decoration-color:#000000;fill:#dddddd;fill-opacity:1;stroke-width:0.135555;-inkscape-stroke:none;stop-color:#000000"
+   x="23.325624"
+   y="10.429039"
+   id="text21894-1"><tspan
+     sodipodi:role="line"
+     id="tspan21892-2"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="23.325624"
+     y="10.429039">Исторически</tspan><tspan
+     sodipodi:role="line"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="23.325624"
+     y="16.529039"
+     id="tspan22181">данни</tspan></text><circle
+   cx="12.786027"
+   cy="12.092242"
+   r="8"
+   fill="#1a2a10"
+   id="circle20849" /><g
+   style="fill:#498628;fill-opacity:1"
+   id="g21637"
+   transform="matrix(0.00797995,0,0,0.00797995,8.955648,15.922621)"><path
+     d="m 296,-320 122,-122 80,80 142,-141 v 63 h 80 V -640 H 520 v 80 h 63 l -85,85 -80,-80 -178,179 z m -96,200 q -33,0 -56.5,-23.5 Q 120,-167 120,-200 v -560 q 0,-33 23.5,-56.5 Q 167,-840 200,-840 h 560 q 33,0 56.5,23.5 23.5,23.5 23.5,56.5 v 560 q 0,33 -23.5,56.5 Q 793,-120 760,-120 Z m 0,-80 H 760 V -760 H 200 Z m 0,-560 v 560 z"
+     id="path21628" /></g>
+         
+      </g><g
+   id="g20881"
+   transform="translate(151.33333,308)"
+   inkscape:label="3">
+         <rect
+   width="60"
+   height="42"
+   rx="4"
+   fill="#161616"
+   stroke="#333333"
+   stroke-width="0.2"
+   id="rect20863"
+   x="0"
+   y="0" />
+         
+         
+         
+         <text
+   xml:space="preserve"
+   style="font-size:4.10245px;font-family:Inter, sans-serif;text-anchor:middle;fill:#dddddd;stroke:none;stroke-width:1.17213"
+   x="29.988234"
+   y="29.828718"
+   id="text20867"><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="29.828718"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21807">Сигнали за критични</tspan><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="34.956779"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21811">стойности като влажност</tspan></text><text
+   xml:space="preserve"
+   style="font-weight:bold;font-size:4.88px;line-height:normal;font-family:Inter, sans-serif;text-decoration-color:#000000;fill:#dddddd;fill-opacity:1;stroke-width:0.135555;-inkscape-stroke:none;stop-color:#000000"
+   x="24.040359"
+   y="13.838844"
+   id="text21894-1-9"><tspan
+     sodipodi:role="line"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="24.040359"
+     y="13.838844"
+     id="tspan22181-1">Известия</tspan></text><circle
+   cx="12.786027"
+   cy="12.092242"
+   r="8"
+   fill="#1e1a10"
+   id="circle20869" /><g
+   style="fill:#c4842a;fill-opacity:1"
+   id="g21650"
+   transform="matrix(0.0075601,0,0,0.0075601,9.1571774,15.728652)"><path
+     d="M 80,-560 Q 80,-660 124.5,-743.5 169,-827 244,-882 l 47,64 q -60,44 -95.5,111 -35.5,67 -35.5,147 z m 720,0 q 0,-80 -35.5,-147 Q 729,-774 669,-818 l 47,-64 q 75,55 119.5,138.5 Q 880,-660 880,-560 Z m -640,360 v -80 h 80 v -280 q 0,-83 50,-147.5 50,-64.5 130,-84.5 v -28 q 0,-25 17.5,-42.5 17.5,-17.5 42.5,-17.5 25,0 42.5,17.5 17.5,17.5 17.5,42.5 v 28 q 80,20 130,84.5 50,64.5 50,147.5 v 280 h 80 v 80 z m 320,-300 z m 0,420 q -33,0 -56.5,-23.5 Q 400,-127 400,-160 h 160 q 0,33 -23.5,56.5 Q 513,-80 480,-80 Z M 320,-280 h 320 v -280 q 0,-66 -47,-113 -47,-47 -113,-47 -66,0 -113,47 -47,47 -47,113 z"
+     id="path21641" /></g>
+         
+      </g>
+      
+      
+      
+      
+      
+      
+    <g
+   id="g20953"
+   transform="translate(20.000002,356.06697)"
+   inkscape:label="4">
+         <rect
+   width="60"
+   height="42"
+   rx="4"
+   fill="#161616"
+   stroke="#333333"
+   stroke-width="0.2"
+   id="rect20935"
+   x="0"
+   y="0" />
+         
+         
+         
+         <text
+   xml:space="preserve"
+   style="font-size:4.10245px;font-family:Inter, sans-serif;text-anchor:middle;fill:#dddddd;stroke:none;stroke-width:1.17213"
+   x="29.988234"
+   y="29.828718"
+   id="text20939"><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="29.828718"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21813">Един акаунт може да</tspan><tspan
+     sodipodi:role="line"
+     x="29.988235"
+     y="34.956779"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21817">управлява много устройства</tspan></text><text
+   xml:space="preserve"
+   style="font-weight:bold;font-size:4.88px;line-height:normal;font-family:Inter, sans-serif;text-decoration-color:#000000;fill:#dddddd;fill-opacity:1;stroke-width:0.135555;-inkscape-stroke:none;stop-color:#000000"
+   x="23.890303"
+   y="10.319429"
+   id="text21894-1-9-9"><tspan
+     sodipodi:role="line"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="23.890303"
+     y="10.319429"
+     id="tspan22181-1-4">Множество</tspan><tspan
+     sodipodi:role="line"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="23.890303"
+     y="16.41943"
+     id="tspan22262">устройства</tspan></text><circle
+   cx="12.786027"
+   cy="12.092242"
+   r="8"
+   fill="#12281a"
+   id="circle20941" /><g
+   style="fill:#2ca074;fill-opacity:1"
+   id="g21663"
+   transform="matrix(0.00674859,0,0,0.00674859,9.5467024,15.331567)"><path
+     d="M 485.26819,-141.75304 461,-355 c -13.33333,-1.33333 -26.83333,-2.5 -40.5,-3.5 -13.66667,-1 -27.16667,-1.5 -40.5,-1.5 h -24 c -8,0 -16,0.66667 -24,2 l 27,109 -77,19 -28,-113 c -20,5.33333 -39.66667,11.33333 -59,18 -19.33333,6.66667 -38.66667,14 -58,22 l -33,-73 c 21.33333,-9.33333 42.66667,-17.83333 64,-25.5 21.33333,-7.66667 43.33333,-14.16667 66,-19.5 l -44,-179 c -30.66667,-2.66667 -56.66667,-15.33333 -78,-38 -21.333333,-22.66667 -32,-50 -32,-82 0,-33.33333 11.666667,-61.66667 35,-85 23.33333,-23.33333 51.66667,-35 85,-35 33.33333,0 61.66667,11.66667 85,35 23.33333,23.33333 35,51.66667 35,85 0,20.66667 -4.66667,39.5 -14,56.5 -9.33333,17 -22,31.16667 -38,42.5 l 45,185 c 11.33333,-1.33333 22.5,-2.33333 33.5,-3 11,-0.66667 22.16667,-1 33.5,-1 12,0 24,0.33333 36,1 12,0.66667 24,1.66667 36,3 l -9,-90 c -24,-7.33333 -43.83333,-21.33333 -59.5,-42 -15.66667,-20.66667 -23.5,-44.66667 -23.5,-72 0,-33.33333 11.66667,-61.66667 35,-85 23.33333,-23.33333 51.66667,-35 85,-35 33.33333,0 61.66667,11.66667 85,35 23.33333,23.33333 35,51.66667 35,85 0,25.33333 -7.16667,48.16667 -21.5,68.5 -14.33333,20.33333 -32.83333,34.83333 -55.5,43.5 l 11,104 c 21.33333,4 42.83333,8.83333 64.5,14.5 21.66667,5.66667 43.16667,11.5 64.5,17.5 l 33,-226 c -17.33333,-10.66667 -31,-25 -41,-43 -10,-18 -15,-37.66667 -15,-59 0,-33.33333 11.66667,-61.66667 35,-85 23.33333,-23.33333 51.66667,-35 85,-35 33.33333,0 61.66667,11.66667 85,35 23.33333,23.33333 35,51.66667 35,85 0,30.66667 -9.83333,57.16667 -29.5,79.5 -19.66667,22.33333 -44.5,35.5 -74.5,39.5 l -34,229 c 16.66667,3.33333 33.16667,6.16667 49.5,8.5 16.33333,2.33333 33.16667,3.5 50.5,3.5 v 80 c -19.33333,0 -38.16667,-1 -56.5,-3 -18.33333,-2 -36.83333,-4.66667 -55.5,-8 l -9,57 -79,-12 9,-65 c -18,-5.33333 -35.83333,-10.5 -53.5,-15.5 -17.66667,-5 -35.83333,-9.5 -54.5,-13.5 l 20.05541,192.29936 z M 508.5,-611.5 c 7.66667,-7.66667 11.5,-17.16667 11.5,-28.5 0,-11.33333 -3.83333,-20.83333 -11.5,-28.5 -7.66667,-7.66667 -17.16667,-11.5 -28.5,-11.5 -11.33333,0 -20.83333,3.83333 -28.5,11.5 -7.66667,7.66667 -11.5,17.16667 -11.5,28.5 0,11.33333 3.83333,20.83333 11.5,28.5 7.66667,7.66667 17.16667,11.5 28.5,11.5 11.33333,0 20.83333,-3.83333 28.5,-11.5 z m -280,-80 c 7.66667,-7.66667 11.5,-17.16667 11.5,-28.5 0,-11.33333 -3.83333,-20.83333 -11.5,-28.5 -7.66667,-7.66667 -17.16667,-11.5 -28.5,-11.5 -11.33333,0 -20.83333,3.83333 -28.5,11.5 -7.66667,7.66667 -11.5,17.16667 -11.5,28.5 0,11.33333 3.83333,20.83333 11.5,28.5 7.66667,7.66667 17.16667,11.5 28.5,11.5 11.33333,0 20.83333,-3.83333 28.5,-11.5 z m 560,0 c 7.66667,-7.66667 11.5,-17.16667 11.5,-28.5 0,-11.33333 -3.83333,-20.83333 -11.5,-28.5 -7.66667,-7.66667 -17.16667,-11.5 -28.5,-11.5 -11.33333,0 -20.83333,3.83333 -28.5,11.5 -7.66667,7.66667 -11.5,17.16667 -11.5,28.5 0,11.33333 3.83333,20.83333 11.5,28.5 7.66667,7.66667 17.16667,11.5 28.5,11.5 11.33333,0 20.83333,-3.83333 28.5,-11.5 z"
+     id="path21654"
+     sodipodi:nodetypes="ccsssccccsccsccsssssssccsssccsssssssccsccsssssssccsccsccccscccsssssssssssssssssssssssssss" /></g>
+         
+      </g><g
+   id="g20973"
+   transform="translate(85.666669,356.06697)"
+   inkscape:label="5">
+         <rect
+   width="60"
+   height="42"
+   rx="4"
+   fill="#161616"
+   stroke="#333333"
+   stroke-width="0.2"
+   id="rect20955"
+   x="0"
+   y="0" />
+         
+         
+         
+         <text
+   xml:space="preserve"
+   style="font-size:4.10245px;font-family:Inter, sans-serif;text-anchor:middle;fill:#dddddd;stroke:none;stroke-width:1.17213"
+   x="29.988234"
+   y="29.828718"
+   id="text20959"><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="29.828718"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21819">Данните никога няма</tspan><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="34.956779"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21823">да бъдат загубени</tspan></text><text
+   xml:space="preserve"
+   style="font-weight:bold;font-size:4.88px;line-height:normal;font-family:Inter, sans-serif;text-decoration-color:#000000;fill:#dddddd;fill-opacity:1;stroke-width:0.135555;-inkscape-stroke:none;stop-color:#000000"
+   x="22.599161"
+   y="10.348023"
+   id="text21894-1-9-9-7"><tspan
+     sodipodi:role="line"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="22.599161"
+     y="10.348023"
+     id="tspan22311">Облачен</tspan><tspan
+     sodipodi:role="line"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="22.599161"
+     y="16.448023"
+     id="tspan22315">sync</tspan></text><circle
+   cx="12.786027"
+   cy="12.092242"
+   r="8"
+   fill="#0f1e2a"
+   id="circle20961" /><g
+   style="fill:#3a8fb5;fill-opacity:1"
+   id="g21676"
+   transform="matrix(0.0065055,0,0,0.0065055,9.6633871,15.201872)"><path
+     d="m 260,-160 q -91,0 -155.5,-63 Q 40,-286 40,-377 q 0,-78 47,-139 47,-61 123,-78 17,-72 85,-137 68,-65 145,-65 33,0 56.5,23.5 23.5,23.5 23.5,56.5 v 242 l 64,-62 56,56 -160,160 -160,-160 56,-56 64,62 v -242 q -76,14 -118,73.5 -42,59.5 -42,122.5 h -20 q -58,0 -99,41 -41,41 -41,99 0,58 41,99 41,41 99,41 h 480 q 42,0 71,-29 29,-29 29,-71 0,-42 -29,-71 -29,-29 -71,-29 h -60 v -80 q 0,-48 -22,-89.5 -22,-41.5 -58,-70.5 v -93 q 74,35 117,103.5 43,68.5 43,149.5 69,8 114.5,59.5 45.5,51.5 45.5,120.5 0,75 -52.5,127.5 Q 815,-160 740,-160 Z m 220,-358 z"
+     id="path21667" /></g>
+         
+      </g><g
+   id="g20993"
+   transform="translate(151.33333,356.06697)"
+   inkscape:label="6">
+         <rect
+   width="60"
+   height="42"
+   rx="4"
+   fill="#161616"
+   stroke="#333333"
+   stroke-width="0.2"
+   id="rect20975"
+   x="0"
+   y="0" />
+         
+         
+         
+         <text
+   xml:space="preserve"
+   style="font-size:4.10245px;font-family:Inter, sans-serif;text-anchor:middle;fill:#dddddd;stroke:none;stroke-width:1.17213"
+   x="29.988234"
+   y="27.117613"
+   id="text20979"><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="27.117613"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan20977">Изкуствен интелект</tspan><tspan
+     sodipodi:role="line"
+     x="29.988234"
+     y="32.245674"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21825">може да дава съвети по </tspan><tspan
+     sodipodi:role="line"
+     x="29.988235"
+     y="37.373737"
+     style="stroke:none;stroke-width:1.17213"
+     id="tspan21827">определени параметри</tspan></text><text
+   xml:space="preserve"
+   style="font-weight:bold;font-size:4.88px;line-height:normal;font-family:Inter, sans-serif;text-decoration-color:#000000;fill:#dddddd;fill-opacity:1;stroke-width:0.135555;-inkscape-stroke:none;stop-color:#000000"
+   x="23.915428"
+   y="13.838844"
+   id="text21894-1-9-9-7-5"><tspan
+     sodipodi:role="line"
+     style="fill:#dddddd;fill-opacity:1;stroke-width:0.135555"
+     x="23.915428"
+     y="13.838844"
+     id="tspan22361">AI съвети</tspan></text><circle
+   cx="12.786027"
+   cy="12.092242"
+   r="8"
+   fill="#1a1030"
+   id="circle20981" /><g
+   style="fill:#8a5dc4;fill-opacity:1"
+   id="g21689"
+   transform="matrix(0.00635226,0,0,0.00635226,9.7369433,15.141326)"><path
+     d="M 423.5,-103.5 Q 400,-127 400,-160 h 160 q 0,33 -23.5,56.5 Q 513,-80 480,-80 q -33,0 -56.5,-23.5 z M 320,-200 v -80 h 320 v 80 z m 10,-120 Q 261,-361 220.5,-430 180,-499 180,-580 180,-705 267.5,-792.5 355,-880 480,-880 q 125,0 212.5,87.5 87.5,87.5 87.5,212.5 0,81 -40.5,150 -40.5,69 -109.5,110 z m 24,-80 h 252 q 45,-32 69.5,-79 24.5,-47 24.5,-101 0,-92 -64,-156 -64,-64 -156,-64 -92,0 -156,64 -64,64 -64,156 0,54 24.5,101 24.5,47 69.5,79 z m 126,0 z"
+     id="path21680" /></g>
+         
+      </g></g></svg>

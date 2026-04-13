@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1920"
+   height="1080"
+   viewBox="0 0 1920 1080"
+   version="1.1"
+   id="svg22501"
+   sodipodi:docname="slide_07.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview22503"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.17057292"
+     inkscape:cx="-1084.5802"
+     inkscape:cy="911.63359"
+     inkscape:window-width="1854"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg22501" />
+  <defs
+     id="defs22461">
+    <rect
+       x="1750.7289"
+       y="1142.7925"
+       width="245.87884"
+       height="237.51501"
+       id="rect22654" />
+    <linearGradient
+       id="hero-bg"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%">
+      <stop
+         offset="0%"
+         stop-color="#0d2318"
+         id="stop22446" />
+      <stop
+         offset="100%"
+         stop-color="#132e20"
+         id="stop22448" />
+    </linearGradient>
+    <linearGradient
+       id="leaf"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%">
+      <stop
+         offset="0%"
+         stop-color="#5DCAA5"
+         id="stop22451" />
+      <stop
+         offset="100%"
+         stop-color="#3DA882"
+         id="stop22453" />
+    </linearGradient>
+    <linearGradient
+       id="pill-fill"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1">
+      <stop
+         offset="0%"
+         stop-color="#12442f"
+         id="stop22456" />
+      <stop
+         offset="100%"
+         stop-color="#1b5036"
+         id="stop22458" />
+    </linearGradient>
+  </defs>
+  <style
+     id="style22463">
+    text, tspan { font-family: 'Inter', sans-serif; }
+    .title { font-size: 72px; font-weight: bold; fill: #ffffff; }
+    .subtitle { font-size: 38px; font-weight: 600; fill: #9fe1cb; }
+    .label { font-size: 28px; font-weight: 500; fill: #888888; letter-spacing: 2px; text-transform: uppercase; }
+    .text-main { font-size: 36px; font-weight: bold; fill: #aeaeae; }
+    .text-body { font-size: 28px; fill: #888888; }
+    .stat-val { font-size: 120px; font-weight: bold; fill: #5DCAA5; }
+    .stat-label { font-size: 32px; font-weight: 600; fill: #dddddd; }
+  </style>
+  <rect
+     width="1920"
+     height="1080"
+     fill="#111111"
+     id="rect22465" />
+  <text
+     x="160"
+     y="175.30859"
+     class="label"
+     id="text22469">ВЪЗДЕЙСТВИЕ</text>
+  <text
+     x="160"
+     y="265.30859"
+     class="title"
+     id="text22471">Защо Soilix има значение</text>
+  <rect
+     x="160"
+     y="375.30859"
+     width="370"
+     height="370"
+     rx="30"
+     fill="#161616"
+     stroke="#333333"
+     stroke-width="2"
+     id="rect22473" />
+  <text
+     x="345"
+     y="545.30859"
+     class="stat-val"
+     text-anchor="middle"
+     id="text22475">30%</text>
+  <text
+     x="345"
+     y="625.30859"
+     class="stat-label"
+     text-anchor="middle"
+     id="text22477">по-малко вода</text>
+  <rect
+     x="570"
+     y="375.30859"
+     width="370"
+     height="370"
+     rx="30"
+     fill="#161616"
+     stroke="#333333"
+     stroke-width="2"
+     id="rect22479" />
+  <text
+     x="755"
+     y="545.30859"
+     class="stat-val"
+     text-anchor="middle"
+     id="text22481">∞</text>
+  <text
+     x="755"
+     y="625.30859"
+     class="stat-label"
+     text-anchor="middle"
+     id="text22483">по-добра реколта</text>
+  <rect
+     x="980"
+     y="375.30859"
+     width="370"
+     height="370"
+     rx="30"
+     fill="#161616"
+     stroke="#333333"
+     stroke-width="2"
+     id="rect22485" />
+  <text
+     x="1165"
+     y="545.30859"
+     class="stat-val"
+     text-anchor="middle"
+     id="text22487">24/7</text>
+  <text
+     x="1165"
+     y="625.30859"
+     class="stat-label"
+     text-anchor="middle"
+     id="text22489">наблюдение</text>
+  <rect
+     x="1390"
+     y="375.30859"
+     width="370"
+     height="370"
+     rx="30"
+     fill="#161616"
+     stroke="#333333"
+     stroke-width="2"
+     id="rect22491" />
+  <text
+     x="1575"
+     y="545.30859"
+     class="stat-val"
+     text-anchor="middle"
+     id="text22493">∞</text>
+  <text
+     x="1575"
+     y="625.30859"
+     class="stat-label"
+     text-anchor="middle"
+     id="text22495">run time</text>
+  <text
+     x="970"
+     y="875.30859"
+     class="text-main"
+     text-anchor="middle"
+     id="text22497">Soilix дава на обикновените фермерите нещо, което никога не са имали:</text>
+  <text
+     x="970"
+     y="925.30859"
+     class="text-body"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text22499">достъпна, автономна видимост в почвата — в реално време, от всяко място.</text>
+</svg>
