@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Svg, { Line, Path } from "react-native-svg";
-import { colors } from "../theme/colors";
+import { useAppColors } from "../theme/colors";
 
 type Point = {
   label: string;
@@ -15,10 +15,12 @@ type Props = {
 };
 
 export function SimpleLineChart({ data, color, unit }: Props) {
+  const c = useAppColors();
+
   if (data.length === 0) {
     return (
-      <View style={[styles.frame, styles.empty]}>
-        <Text style={styles.emptyText}>No data available</Text>
+      <View style={[styles.frame, styles.empty, { backgroundColor: c.inputBg, borderColor: c.border }]}>
+        <Text style={[styles.emptyText, { color: c.textMuted }]}>No data available</Text>
       </View>
     );
   }
@@ -43,23 +45,23 @@ export function SimpleLineChart({ data, color, unit }: Props) {
   const labelIndexes = Array.from(new Set([0, Math.floor((data.length - 1) / 2), data.length - 1]));
 
   return (
-    <View style={styles.frame}>
+    <View style={[styles.frame, { backgroundColor: c.inputBg, borderColor: c.border }]}>
       <Svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
-        <Line x1="18" y1="24" x2="282" y2="24" stroke="#e8efe9" strokeWidth="1" />
-        <Line x1="18" y1="90" x2="282" y2="90" stroke="#e8efe9" strokeWidth="1" />
-        <Line x1="18" y1="156" x2="282" y2="156" stroke="#e8efe9" strokeWidth="1" />
+        <Line x1="18" y1="24" x2="282" y2="24" stroke={c.border} strokeWidth="1" />
+        <Line x1="18" y1="90" x2="282" y2="90" stroke={c.border} strokeWidth="1" />
+        <Line x1="18" y1="156" x2="282" y2="156" stroke={c.border} strokeWidth="1" />
         <Path d={path} stroke={color} strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </Svg>
 
       <View style={styles.chartFooter}>
         {labelIndexes.map((index) => (
-          <Text key={index} style={styles.axisLabel}>
+          <Text key={index} style={[styles.axisLabel, { color: c.textMuted }]}>
             {data[index]?.label}
           </Text>
         ))}
       </View>
 
-      <Text style={styles.currentValue}>
+      <Text style={[styles.currentValue, { color: c.text }]}>
         Latest: {lastPoint.value}
         {unit}
       </Text>
@@ -70,9 +72,7 @@ export function SimpleLineChart({ data, color, unit }: Props) {
 const styles = StyleSheet.create({
   frame: {
     borderRadius: 24,
-    backgroundColor: "#f9fcf9",
     borderWidth: 1,
-    borderColor: "#edf3ee",
     padding: 10,
   },
   empty: {
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   emptyText: {
-    color: colors.textMuted,
     fontWeight: "600",
   },
   chartFooter: {
@@ -91,12 +90,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   axisLabel: {
-    color: colors.textMuted,
     fontSize: 12,
   },
   currentValue: {
     marginTop: 10,
-    color: colors.text,
     fontWeight: "700",
     fontSize: 13,
     paddingHorizontal: 8,
