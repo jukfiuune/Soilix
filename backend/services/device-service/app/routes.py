@@ -1,7 +1,8 @@
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, Response, request, jsonify, current_app
 
 
 device_bp = Blueprint("device", __name__)
+MAX_SEND_INTERVAL_MS = 43200000
 
 @device_bp.route("/device/reading/<device_id>", methods=["POST"])
 def send_reading(device_id):
@@ -27,9 +28,20 @@ def send_reading(device_id):
 
     supabase = current_app.extensions.get("supabase_client")
     try:
-        response = supabase.table("device_readings").insert(entry).execute()
+        supabase.table("device_readings").insert(entry).execute()
+        device_res = supabase.from_("devices").select("send_interval_ms").eq("id", device_id.strip()).limit(1).execute()
     except Exception as e:
         error = str(e)
         return jsonify({"message": "Failed to insert reading into database.", 
                        "error":error}), 400
-    return jsonify({"message": "Reading received and stored successfully."}), 201
+
+    configured_interval = None
+    if device_res.data:
+        configured_interval = device_res.data[0].get("send_interval_ms")
+
+    if isinstance(configured_interval, (int, float)):
+        interval_ms = int(configured_interval)
+        if 0 < interval_ms <= MAX_SEND_INTERVAL_MS:
+            return Response(str(interval_ms), status=201, mimetype="text/plain")
+
+    return Response("", status=201, mimetype="text/plain")
