@@ -12,6 +12,8 @@ type ApiRequestOptions = {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: JsonObject;
   headers?: Record<string, string>;
+  /** Skip the 401 → refresh retry for this specific request (e.g. the refresh call itself). */
+  skipAuthRetry?: boolean;
 };
 
 export function getBearerAuthHeaders(accessToken: string) {
@@ -20,7 +22,23 @@ export function getBearerAuthHeaders(accessToken: string) {
   };
 }
 
+// Registered by AuthContext at startup; called whenever any request gets a 401.
+// Returning a new token string triggers a single retry; returning null forces logout.
+let unauthorizedHandler: (() => Promise<string | null>) | null = null;
+
+export function setUnauthorizedHandler(handler: () => Promise<string | null>) {
+  unauthorizedHandler = handler;
+}
+
 export async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
+  return _doRequest<T>(path, options, false);
+}
+
+async function _doRequest<T>(
+  path: string,
+  options: ApiRequestOptions,
+  isRetry: boolean,
+): Promise<T> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), requestTimeoutMs);
 
@@ -47,6 +65,22 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
   }
 
   clearTimeout(timeoutId);
+
+  // Handle token expiry: try the registered refresh handler once.
+  if (response.status === 401 && !isRetry && !options.skipAuthRetry && unauthorizedHandler) {
+    const newToken = await unauthorizedHandler();
+    if (newToken) {
+      const retryOptions: ApiRequestOptions = {
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${newToken}`,
+        },
+      };
+      return _doRequest<T>(path, retryOptions, true);
+    }
+    throw new Error("Session expired. Please log in again.");
+  }
 
   const text = await response.text();
   const data = text ? tryParseJson(text) : null;

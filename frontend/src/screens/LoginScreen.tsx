@@ -8,11 +8,12 @@ import { Screen } from "../components/Screen";
 import { SectionCard } from "../components/SectionCard";
 import { useAuth } from "../context/AuthContext";
 import { RootStackParamList } from "../navigation/types";
-import { colors } from "../theme/colors";
+import { useAppColors } from "../theme/colors";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Auth">;
 
 export function LoginScreen({ navigation }: Props) {
+  const c = useAppColors();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +23,6 @@ export function LoginScreen({ navigation }: Props) {
   const handleLogin = async () => {
     setError("");
     setLoading(true);
-
     try {
       await login(email, password);
     } catch (err) {
@@ -35,15 +35,17 @@ export function LoginScreen({ navigation }: Props) {
   return (
     <Screen contentStyle={styles.content}>
       <View style={styles.hero}>
-        <View style={styles.logo}>
+        <View style={[styles.logo, { backgroundColor: c.primary }]}>
           <MaterialCommunityIcons name="leaf" size={38} color="#ffffff" />
         </View>
-        <Text style={styles.title}>Soilix</Text>
-        <Text style={styles.subtitle}>Monitor your garden from anywhere.</Text>
+        <Text style={[styles.title, { color: c.text }]}>Soilix</Text>
+        <Text style={[styles.subtitle, { color: c.textMuted }]}>Monitor your garden from anywhere.</Text>
       </View>
 
       <SectionCard style={styles.card}>
-        {error ? <Text style={styles.error}>{error}</Text> : null}
+        {error ? (
+          <Text style={[styles.error, { backgroundColor: c.dangerSurface, color: c.danger }]}>{error}</Text>
+        ) : null}
         <AppTextInput
           label="Email"
           value={email}
@@ -63,67 +65,32 @@ export function LoginScreen({ navigation }: Props) {
       </SectionCard>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Don't have an account?</Text>
-        <AppButton
-          title="Create Account"
-          onPress={() => navigation.navigate("SignUp")}
-          variant="secondary"
-        />
+        <Text style={[styles.footerText, { color: c.textMuted }]}>Don't have an account?</Text>
+        <AppButton title="Create Account" onPress={() => navigation.navigate("SignUp")} variant="secondary" />
       </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    justifyContent: "center",
-    gap: 22,
-  },
-  hero: {
-    alignItems: "center",
-    gap: 10,
-    marginBottom: 8,
-  },
+  content:    { justifyContent: "center", gap: 22 },
+  hero:       { alignItems: "center", gap: 10, marginBottom: 8 },
   logo: {
     width: 88,
     height: 88,
     borderRadius: 28,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.primary,
     shadowColor: "#17351d",
     shadowOpacity: 0.15,
     shadowRadius: 16,
     shadowOffset: { width: 0, height: 10 },
     elevation: 4,
   },
-  title: {
-    fontSize: 34,
-    fontWeight: "800",
-    color: colors.text,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: colors.textMuted,
-    textAlign: "center",
-  },
-  card: {
-    gap: 16,
-  },
-  error: {
-    borderRadius: 16,
-    backgroundColor: "#fdeceb",
-    color: colors.danger,
-    fontWeight: "700",
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-  },
-  footer: {
-    gap: 10,
-  },
-  footerText: {
-    textAlign: "center",
-    color: colors.textMuted,
-    fontSize: 14,
-  },
+  title:      { fontSize: 34, fontWeight: "800" },
+  subtitle:   { fontSize: 16, textAlign: "center" },
+  card:       { gap: 16 },
+  error:      { borderRadius: 16, fontWeight: "700", paddingHorizontal: 14, paddingVertical: 12 },
+  footer:     { gap: 10 },
+  footerText: { textAlign: "center", fontSize: 14 },
 });

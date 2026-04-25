@@ -12,7 +12,7 @@ import { HomeScreen } from "../screens/HomeScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { DeviceDetailsScreen } from "../screens/DeviceDetailsScreen";
 import { StatisticsScreen } from "../screens/StatisticsScreen";
-import { colors } from "../theme/colors";
+import { useAppColors } from "../theme/colors";
 import { MainTabParamList, RootStackParamList } from "./types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -20,22 +20,21 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
 
 function MainTabs() {
   const insets = useSafeAreaInsets();
+  const c = useAppColors();
 
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: "#89a290",
+        tabBarActiveTintColor: c.primary,
+        tabBarInactiveTintColor: c.textMuted,
         tabBarStyle: {
-          // Stretch the white background to cover the OS buttons
           minHeight: 60 + insets.bottom,
           paddingTop: 8,
-          // Push the icons up so they don't hide under the OS buttons
           paddingBottom: insets.bottom || 8,
-          backgroundColor: "#ffffff",
-          borderTopColor: colors.border,
-          elevation: 0, // Removes Android shadow gap
+          backgroundColor: c.tabBar,
+          borderTopColor: c.border,
+          elevation: 0,
         },
         tabBarIcon: ({ color, size }) => {
           const iconName = route.name === "Home" ? "home-variant-outline" : "account-outline";
@@ -51,13 +50,14 @@ function MainTabs() {
 
 export function AppNavigator() {
   const { user, initializing } = useAuth();
+  const c = useAppColors();
 
   if (initializing) {
     return (
       <Screen scroll={false} contentStyle={styles.loadingContent}>
         <View style={styles.loadingWrap}>
-          <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={styles.loadingText}>Restoring session...</Text>
+          <ActivityIndicator size="large" color={c.primary} />
+          <Text style={[styles.loadingText, { color: c.textMuted }]}>Restoring session...</Text>
         </View>
       </Screen>
     );
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   loadingText: {
-    color: colors.textMuted,
     fontSize: 15,
     fontWeight: "600",
   },

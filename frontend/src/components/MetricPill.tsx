@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { colors } from "../theme/colors";
+import { useAppColors } from "../theme/colors";
 
 type Props = {
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -11,15 +11,17 @@ type Props = {
 };
 
 export function MetricPill({ icon, label, value, tint }: Props) {
+  const c = useAppColors();
+
   return (
     <View style={styles.row}>
       <View style={[styles.iconWrap, { backgroundColor: `${tint}1A` }]}>
         <MaterialCommunityIcons name={icon} size={18} color={tint} />
       </View>
       <View style={styles.labelWrap}>
-        <Text style={styles.label}>{label}</Text>
+        <Text style={[styles.label, { color: c.textMuted }]}>{label}</Text>
       </View>
-      <Text style={styles.value}>{value}</Text>
+      <Text style={[styles.value, { color: c.text }]}>{value}</Text>
     </View>
   );
 }
@@ -42,12 +44,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   label: {
-    color: colors.textMuted,
     fontSize: 14,
     fontWeight: "600",
   },
   value: {
-    color: colors.text,
     fontSize: 15,
     fontWeight: "700",
   },

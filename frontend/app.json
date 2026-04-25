@@ -4,16 +4,8 @@
     "slug": "soilix",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "backgroundColor": "#eefbf3",
-    "androidStatusBar": {
-      "backgroundColor": "#00000000",
-      "barStyle": "dark-content"
-    },
-    "androidNavigationBar": {
-      "backgroundColor": "#00000000",
-      "barStyle": "dark-content"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],

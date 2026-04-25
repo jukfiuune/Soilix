@@ -8,7 +8,7 @@ import {
   TextStyle,
   ViewStyle,
 } from "react-native";
-import { colors } from "../theme/colors";
+import { useAppColors } from "../theme/colors";
 
 type Variant = "primary" | "secondary" | "outline" | "danger";
 
@@ -31,6 +31,27 @@ export function AppButton({
   style,
   textStyle,
 }: Props) {
+  const c = useAppColors();
+
+  const variantStyles: Record<Variant, { button: ViewStyle; text: TextStyle }> = {
+    primary: {
+      button: { backgroundColor: c.primary },
+      text: { color: "#ffffff" },
+    },
+    secondary: {
+      button: { backgroundColor: c.cardAlt },
+      text: { color: c.text },
+    },
+    outline: {
+      button: { backgroundColor: "transparent", borderWidth: 1, borderColor: c.border },
+      text: { color: c.text },
+    },
+    danger: {
+      button: { backgroundColor: c.danger },
+      text: { color: "#ffffff" },
+    },
+  };
+
   const palette = variantStyles[variant];
 
   return (
@@ -46,32 +67,13 @@ export function AppButton({
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={palette.text.color} />
+        <ActivityIndicator color={palette.text.color as string} />
       ) : (
         <Text style={[styles.text, palette.text, textStyle]}>{title}</Text>
       )}
     </Pressable>
   );
 }
-
-const variantStyles: Record<Variant, { button: ViewStyle; text: TextStyle }> = {
-  primary: {
-    button: { backgroundColor: colors.primary },
-    text: { color: "#ffffff" },
-  },
-  secondary: {
-    button: { backgroundColor: "#eef4ef" },
-    text: { color: colors.text },
-  },
-  outline: {
-    button: { backgroundColor: "#ffffff", borderWidth: 1, borderColor: colors.border },
-    text: { color: colors.text },
-  },
-  danger: {
-    button: { backgroundColor: colors.danger },
-    text: { color: "#ffffff" },
-  },
-};
 
 const styles = StyleSheet.create({
   base: {

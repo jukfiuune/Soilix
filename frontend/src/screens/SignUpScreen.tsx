@@ -7,11 +7,12 @@ import { Screen } from "../components/Screen";
 import { SectionCard } from "../components/SectionCard";
 import { useAuth } from "../context/AuthContext";
 import { RootStackParamList } from "../navigation/types";
-import { colors } from "../theme/colors";
+import { useAppColors } from "../theme/colors";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SignUp">;
 
 export function SignUpScreen({ navigation }: Props) {
+  const c = useAppColors();
   const { signup } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,12 +39,12 @@ export function SignUpScreen({ navigation }: Props) {
   return (
     <Screen contentStyle={styles.content}>
       <View style={styles.header}>
-        <Text style={styles.title}>Create Account</Text>
-        <Text style={styles.subtitle}>Start monitoring your plants today.</Text>
+        <Text style={[styles.title, { color: c.text }]}>Create Account</Text>
+        <Text style={[styles.subtitle, { color: c.textMuted }]}>Start monitoring your plants today.</Text>
       </View>
 
       <SectionCard style={styles.card}>
-        {error ? <Text style={styles.error}>{error}</Text> : null}
+        {error ? <Text style={[styles.error, { backgroundColor: c.dangerSurface, color: c.danger }]}>{error}</Text> : null}
         <AppTextInput
           label="Email"
           value={email}
@@ -89,19 +90,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: "800",
-    color: colors.text,
   },
   subtitle: {
     fontSize: 16,
-    color: colors.textMuted,
   },
   card: {
     gap: 16,
   },
   error: {
     borderRadius: 16,
-    backgroundColor: "#fdeceb",
-    color: colors.danger,
     fontWeight: "700",
     paddingHorizontal: 14,
     paddingVertical: 12,

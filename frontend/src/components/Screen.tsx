@@ -2,6 +2,7 @@ import React from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAppColors } from "../theme/colors";
 
 type Props = React.PropsWithChildren<{
   scroll?: boolean;
@@ -9,6 +10,8 @@ type Props = React.PropsWithChildren<{
 }>;
 
 export function Screen({ children, scroll = true, contentStyle }: Props) {
+  const c = useAppColors();
+
   const content = scroll ? (
     <ScrollView contentContainerStyle={[styles.scrollContent, contentStyle]} showsVerticalScrollIndicator={false}>
       {children}
@@ -18,7 +21,7 @@ export function Screen({ children, scroll = true, contentStyle }: Props) {
   );
 
   return (
-    <LinearGradient colors={["#eefbf3", "#e1f5fb"]} style={styles.fill}>
+    <LinearGradient colors={[c.gradientStart, c.gradientEnd]} style={styles.fill}>
       <SafeAreaView style={styles.fill} edges={["top", "left", "right"]}>
         <KeyboardAvoidingView
           style={styles.fill}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import { AppButton } from "./AppButton";
-import { colors } from "../theme/colors";
+import { useAppColors } from "../theme/colors";
 
 type Props = {
   visible: boolean;
@@ -26,6 +26,7 @@ export function PromptModal({
   onCancel,
   onConfirm,
 }: Props) {
+  const c = useAppColors();
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
@@ -36,16 +37,23 @@ export function PromptModal({
 
   return (
     <Modal animationType="fade" transparent visible={visible} onRequestClose={onCancel}>
-      <View style={styles.overlay}>
-        <View style={styles.card}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.description}>{description}</Text>
+      <View style={[styles.overlay, { backgroundColor: c.overlay }]}>
+        <View style={[styles.card, { backgroundColor: c.card }]}>
+          <Text style={[styles.title, { color: c.text }]}>{title}</Text>
+          <Text style={[styles.description, { color: c.textMuted }]}>{description}</Text>
           <TextInput
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}
-            placeholderTextColor="#93a998"
-            style={styles.input}
+            placeholderTextColor={c.textMuted}
+            style={[
+              styles.input,
+              {
+                borderColor: c.border,
+                color: c.text,
+                backgroundColor: c.inputBg,
+              },
+            ]}
             autoFocus
           />
           <View style={styles.actions}>
@@ -66,12 +74,10 @@ export function PromptModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(14, 24, 18, 0.45)",
     justifyContent: "center",
     padding: 24,
   },
   card: {
-    backgroundColor: colors.card,
     borderRadius: 24,
     padding: 22,
     gap: 12,
@@ -79,22 +85,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "800",
-    color: colors.text,
   },
   description: {
     fontSize: 15,
     lineHeight: 22,
-    color: colors.textMuted,
   },
   input: {
     minHeight: 52,
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: colors.border,
     paddingHorizontal: 16,
     fontSize: 16,
-    color: colors.text,
-    backgroundColor: "#f9fcf9",
   },
   actions: {
     flexDirection: "row",
