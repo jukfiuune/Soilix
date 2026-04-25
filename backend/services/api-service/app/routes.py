@@ -176,6 +176,7 @@ def last_reading_all_devices_user():
                     "air_pressure_hpa": last_reading["air_pressure_hpa"],
                     "soil_humidity_pct": last_reading["soil_humidity_pct"],
                     "soil_temp_c": last_reading["soil_temp_c"],
+                    "wind_speed_ms": last_reading["wind_speed_ms"],
                     "recorded_at": last_reading["recorded_at"]
                 })
             else:
@@ -187,6 +188,7 @@ def last_reading_all_devices_user():
                     "air_pressure_hpa": None,
                     "soil_humidity_pct": None,
                     "soil_temp_c": None,
+                    "wind_speed_ms": None,
                     "recorded_at": None
                 })
         
@@ -218,6 +220,7 @@ def last_reading_device_user(device_id):
                 "air_pressure_hpa": last_reading["air_pressure_hpa"],
                 "soil_humidity_pct": last_reading["soil_humidity_pct"],
                 "soil_temp_c": last_reading["soil_temp_c"],
+                "wind_speed_ms": last_reading["wind_speed_ms"],
                 "recorded_at": last_reading["recorded_at"]
             }
         else:
@@ -229,6 +232,7 @@ def last_reading_device_user(device_id):
                 "air_pressure_hpa": None,
                 "soil_humidity_pct": None,
                 "soil_temp_c": None,
+                "wind_speed_ms": None,
                 "recorded_at": None
             }
         return jsonify(result), 200

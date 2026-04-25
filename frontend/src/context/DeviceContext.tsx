@@ -8,6 +8,7 @@ export type SensorReading = {
   airPressure: number;
   soilHumidity: number;
   soilTemp: number;
+  windSpeed: number;
 };
 
 export type Device = {
@@ -36,6 +37,7 @@ type BackendDevice = {
   air_pressure_hpa?: number | null;
   soil_humidity_pct?: number | null;
   soil_temp_c?: number | null;
+  wind_speed_ms?: number | null;
   recorded_at?: string | null;
 };
 
@@ -83,13 +85,15 @@ export function DeviceProvider({ children }: React.PropsWithChildren) {
             airPressure: device.air_pressure_hpa ?? 0,
             soilHumidity: device.soil_humidity_pct ?? 0,
             soilTemp: device.soil_temp_c ?? 0,
+            windSpeed: device.wind_speed_ms ?? 0,
           },
           hasLiveData:
             device.air_temp_c !== null &&
             device.air_humidity_pct !== null &&
             device.air_pressure_hpa !== null &&
             device.soil_humidity_pct !== null &&
-            device.soil_temp_c !== null,
+            device.soil_temp_c !== null &&
+            device.wind_speed_ms !== null,
           recordedAt: device.recorded_at ?? null,
         })),
       );
@@ -179,6 +183,7 @@ async function fetchDevices(accessToken: string) {
           air_pressure_hpa: null,
           soil_humidity_pct: null,
           soil_temp_c: null,
+          wind_speed_ms: null,
           recorded_at: null,
         })),
       };

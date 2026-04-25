@@ -12,7 +12,7 @@ import { RootStackParamList } from "../navigation/types";
 import { colors } from "../theme/colors";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Statistics">;
-type Metric = "airTemp" | "airHumidity" | "airPressure" | "soilHumidity" | "soilTemp";
+type Metric = "airTemp" | "airHumidity" | "airPressure" | "soilHumidity" | "soilTemp" | "windSpeed";
 type TimeRange = "10 minutes" | "30 minutes" | "1 hour" | "1 day";
 type HistoricalDataPoint = {
   timestamp: string;
@@ -25,6 +25,7 @@ type BackendReading = {
   air_pressure_hpa: number;
   soil_humidity_pct: number;
   soil_temp_c: number;
+  wind_speed_ms: number;
 };
 type HistoryResponse = {
   readings: BackendReading[];
@@ -36,6 +37,7 @@ const metricConfig: Record<Metric, { label: string; unit: string; color: string 
   airPressure: { label: "Air Pressure", unit: " hPa", color: "#9566d8" },
   soilHumidity: { label: "Soil Humidity", unit: "%", color: "#4aaf5d" },
   soilTemp: { label: "Soil Temperature", unit: "C", color: "#c88f31" },
+  windSpeed: { label: "Wind Speed", unit: " m/s", color: "#5aa8c4" },
 };
 
 const timeRanges: TimeRange[] = ["10 minutes", "30 minutes", "1 hour", "1 day"];
@@ -45,6 +47,7 @@ const metricFieldMap: Record<Metric, keyof BackendReading> = {
   airPressure: "air_pressure_hpa",
   soilHumidity: "soil_humidity_pct",
   soilTemp: "soil_temp_c",
+  windSpeed: "wind_speed_ms",
 };
 
 export function StatisticsScreen({ navigation, route }: Props) {

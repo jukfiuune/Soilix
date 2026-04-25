@@ -195,6 +195,12 @@ export function HomeScreen({ navigation }: Props) {
                   value={formatMetricValue(device.readings.soilTemp, "C", device.hasLiveData)}
                   tint="#c88f31"
                 />
+                <MetricPill
+                  icon="weather-windy"
+                  label="Wind Speed"
+                  value={formatMetricValue(device.readings.windSpeed, " m/s", device.hasLiveData)}
+                  tint="#5aa8c4"
+                />
               </SectionCard>
             </Pressable>
           ))}

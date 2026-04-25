@@ -75,6 +75,7 @@ export function DeviceDetailsScreen({ navigation, route }: Props) {
           <MetricPill icon="sprout" label="Soil Humidity" value={formatMetricValue(device.readings.soilHumidity, "%", device.hasLiveData)} tint="#4aaf5d" />
           <MetricPill icon="thermometer" label="Air Temperature" value={formatMetricValue(device.readings.airTemp, "C", device.hasLiveData)} tint="#f28b37" />
           <MetricPill icon="thermometer-lines" label="Soil Temperature" value={formatMetricValue(device.readings.soilTemp, "C", device.hasLiveData)} tint="#c88f31" />
+          <MetricPill icon="weather-windy" label="Wind Speed" value={formatMetricValue(device.readings.windSpeed, " m/s", device.hasLiveData)} tint="#5aa8c4" />
         </SectionCard>
 
         <IllustratedGarden readings={device.readings} />
