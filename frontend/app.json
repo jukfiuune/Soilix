@@ -16,7 +16,8 @@
       "adaptiveIcon": {
         "backgroundColor": "#eefbf3"
       },
-      "package": "com.soilix.app"
+      "package": "com.soilix.app",
+      "usesCleartextTraffic": true
     },
     "plugins": [
       "expo-font",
