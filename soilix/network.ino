@@ -125,8 +125,11 @@ String sendHTTPRequest(const String& url, const String& payload, bool getData) {
 
 void postDataToServer() {
   DEBUG_PRINTLN(F("\n[DATA] Reading sensors..."));
-  
+
+  sim800.end();                      // pause SoftwareSerial ISR during OneWire read
   String payload = getSensorPayload();
+  sim800.begin(9600);                // restore before HTTP transaction
+
   DEBUG_PRINT(F("[DATA] Payload: "));
   DEBUG_PRINTLN(payload);
 

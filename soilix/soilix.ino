@@ -17,7 +17,7 @@ SoftwareSerial sim800(SIM800_RX_PIN, SIM800_TX_PIN);
 bool sht4Found  = false;
 bool bmpFound = false;
 unsigned long lastTransmission = 0;
-unsigned long currentInterval = 840000UL; 
+unsigned long currentInterval = 60000UL; 
 
 void setup() {
   Serial.begin(9600);

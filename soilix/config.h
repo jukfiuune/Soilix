@@ -21,6 +21,7 @@
 #define SIM800_RX_PIN  A0
 #define SIM800_TX_PIN  13
 #define SIM800_RST_PIN 11
+#define WIND_PIN       10
 
 // --- Server Settings ---
 #define DEVICE_ID   "f9a2c209-c862-47db-b674-42eca22a6653" // set when manufactured
@@ -52,6 +53,7 @@ const uint8_t BG_OPERATORS_COUNT = sizeof(BG_OPERATORS) / sizeof(BG_OPERATORS[0]
 void initSensors();
 int getSoilMoisturePercent();
 float getSoilTemperature();
+float getWindSpeed();
 float getAirTemperature();
 float getAirHumidity();
 float getAirPressure();

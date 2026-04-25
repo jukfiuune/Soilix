@@ -1,6 +1,10 @@
+#include "config.h"
+
 void initSensors() {
   Wire.begin();
   soilTempSensor.begin();
+  Serial.print(F("[SENSOR] DS18B20 devices found: "));
+  Serial.println(soilTempSensor.getDeviceCount());
 
   if (sht4.begin()) {
     sht4.setPrecision(SHT4X_HIGH_PRECISION);
@@ -16,6 +20,8 @@ void initSensors() {
   } else {
     Serial.println(F("[SENSOR] BMP280 NOT found."));
   }
+
+  pinMode(WIND_PIN, INPUT);
 }
 
 
@@ -24,6 +30,17 @@ int getSoilMoisturePercent() {
   int percent = map(rawSoil, SOIL_DRY_VALUE, SOIL_WET_VALUE, 0, 100);
   
   return constrain(percent, 0, 100);
+}
+
+float getWindSpeed() {
+  unsigned long highTime = pulseIn(WIND_PIN, HIGH); // microseconds
+  unsigned long lowTime  = pulseIn(WIND_PIN, LOW); // microseconds
+  unsigned long period   = highTime + lowTime;
+
+  if(period == 0) return 0.0;
+  if(highTime == 0) return 0.0;
+
+  return (830000.0 / period);
 }
 
 float getSoilTemperature() {
@@ -56,6 +73,7 @@ String getSensorPayload() {
   float airTemp    = getAirTemperature();
   float airHum     = getAirHumidity();
   float airPress   = getAirPressure();
+  float windSpeed  = getWindSpeed();
 
   String soilTempStr = (soilTemp == DEVICE_DISCONNECTED_C) ? "-127" : String(soilTemp, 1);
 
@@ -63,5 +81,6 @@ String getSensorPayload() {
        + String(airHum,   1)   + " "
        + String(airPress, 1)   + " "
        + String(soilMoisture)  + " "  
-       + soilTempStr;
+       + soilTempStr           + " "
+       + String(windSpeed);
 }
